@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OK.GOLD - A shared domain for shipping tools, pages, and experiments. Ethereum-native infrastructure for builders.">
+    <title>OK.GOLD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #fafaf8;
+            --text: #1a1a1a;
+            --muted: #666;
+            --accent: #d4af37;
+            --border: #e0e0e0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0a0a0a;
+                --text: #e8e8e8;
+                --muted: #999;
+                --accent: #d4af37;
+                --border: #333;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .hero {
+            padding: 4rem 0 6rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            color: var(--muted);
+            max-width: 540px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .section {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (min-width: 640px) {
+            .flow {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .flow-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .flow-number {
+            display: inline-block;
+            width: 2.5rem;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .flow-item h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .flow-item p {
+            font-size: 0.9375rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .manifesto {
+            padding: 3rem 0;
+        }
+
+        .manifesto h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .manifesto ul {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .manifesto li {
+            padding: 0.75rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .manifesto li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .pricing {
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .pricing p {
+            font-size: 1rem;
+            color: var(--muted);
+            margin: 0.5rem 0;
+        }
+
+        .pricing .price {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-top: 1rem;
+        }
+
+        footer {
+            padding: 4rem 0 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin: 0.5rem 0;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        footer a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .code {
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+            font-size: 0.875em;
+            background: var(--border);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 3rem 0 1.5rem;
+            }
+
+            .hero {
+                padding: 3rem 0 4rem;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+
+            .manifesto {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">OK.GOLD</div>
+        </header>
+
+        <section class="hero">
+            <h1>A shared domain for builders who ship.</h1>
+            <p>
+                No gatekeepers. No platforms. Just you, your keys, and the things you make.
+                Ethereum-native infrastructure that fades into the background.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>How it works</h2>
+            <div class="flow">
+                <div class="flow-item">
+                    <div class="flow-number">1</div>
+                    <h3>Intent</h3>
+                    <p>You have something to build. A tool, a page, an experiment worth sharing.</p>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-number">2</div>
+                    <h3>Name</h3>
+                    <p>Claim your subdomain. Your wallet is your account. Your keys are your authority.</p>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-number">3</div>
+                    <h3>Live</h3>
+                    <p>Ship it. Update it. Own it. No intermediaries between you and the web.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section manifesto">
+            <h2>Principles</h2>
+            <ul>
+                <li>Keys over accounts. Your wallet owns your namespace.</li>
+                <li>Smart contracts, not databases. Immutable ownership records.</li>
+                <li>Account abstraction. Wallets are first-class citizens.</li>
+                <li>Invisible infrastructure. The protocol should fade away.</li>
+                <li>No surveillance. No tracking. No data extraction.</li>
+                <li>Built for permanence, not quarterly growth.</li>
+            </ul>
+        </section>
+
+        <section class="section pricing">
+            <h2>Access</h2>
+            <p>Early access for builders.</p>
+            <p class="price">Free while in development.</p>
+            <p>Future pricing: transparent, minimal, on-chain.</p>
+        </section>
+
+        <footer>
+            <p>Built on Ethereum. Owned by its users.</p>
+            <p>No company. No captive ecosystem. Just infrastructure.</p>
+            <p><span class="code">ok.gold</span> — A cypherpunk domain for the sovereign web.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Minimal interaction: smooth scroll for any future anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling if anchor links are added later
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
