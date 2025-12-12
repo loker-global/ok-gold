@@ -55,21 +55,14 @@
             }
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -1000px 0;
-            }
-            100% {
-                background-position: 1000px 0;
+        /* Respect user motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
 
@@ -128,9 +121,6 @@
             line-height: 1.2;
             margin-bottom: 2rem;
             letter-spacing: -0.03em;
-            background: linear-gradient(135deg, var(--text) 0%, var(--text-soft) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
         }
 
         .hero p {
@@ -356,6 +346,18 @@
             margin: 3rem auto;
         }
 
+        /* Scroll reveal animations */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         @media (max-width: 640px) {
             header {
                 padding: 4rem 0 2rem;
@@ -477,38 +479,40 @@
                 });
             });
 
-            // Intersection Observer for scroll-triggered animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
+            // Respect user's motion preferences
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            if (!prefersReducedMotion) {
+                // Intersection Observer for scroll-triggered animations
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe sections for subtle entrance
+                document.querySelectorAll('.flow-item, .manifesto li').forEach(el => {
+                    el.classList.add('reveal-on-scroll');
+                    observer.observe(el);
                 });
-            }, observerOptions);
 
-            // Observe sections for subtle entrance
-            document.querySelectorAll('.flow-item, .manifesto li').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
-            });
+                // Add slight delay to each flow item
+                document.querySelectorAll('.flow-item').forEach((item, index) => {
+                    item.style.transitionDelay = `${index * 0.1}s`;
+                });
 
-            // Add slight delay to each flow item
-            document.querySelectorAll('.flow-item').forEach((item, index) => {
-                item.style.transitionDelay = `${index * 0.1}s`;
-            });
-
-            // Add slight delay to each manifesto item
-            document.querySelectorAll('.manifesto li').forEach((item, index) => {
-                item.style.transitionDelay = `${index * 0.05}s`;
-            });
+                // Add slight delay to each manifesto item
+                document.querySelectorAll('.manifesto li').forEach((item, index) => {
+                    item.style.transitionDelay = `${index * 0.05}s`;
+                });
+            }
         });
     </script>
 </body>
