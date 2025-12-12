@@ -13,34 +13,46 @@
         }
 
         :root {
-            --bg: #fafaf8;
-            --bg-elevated: #ffffff;
-            --text: #1a1a1a;
-            --text-soft: #2d2d2d;
-            --muted: #666;
+            --bg: #0f0f0f;
+            --bg-elevated: #1a1a1a;
+            --bg-card: #141414;
+            --text: #f5f5f5;
+            --text-soft: #e0e0e0;
+            --muted: #a0a0a0;
             --muted-light: #888;
-            --accent: #d4af37;
-            --accent-dim: #c29a2d;
-            --accent-glow: rgba(212, 175, 55, 0.15);
-            --border: #e0e0e0;
-            --border-soft: #f0f0f0;
-            --shadow: rgba(0, 0, 0, 0.04);
+            --accent: #ffd700;
+            --accent-bright: #ffed4e;
+            --accent-dim: #d4af37;
+            --accent-glow: rgba(255, 215, 0, 0.25);
+            --accent-glow-strong: rgba(255, 215, 0, 0.4);
+            --border: #2a2a2a;
+            --border-soft: #1f1f1f;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --shadow-strong: rgba(0, 0, 0, 0.8);
+            --gradient-gold: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            --gradient-subtle: linear-gradient(180deg, transparent 0%, rgba(255, 215, 0, 0.05) 100%);
         }
 
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: light) {
             :root {
-                --bg: #0a0a0a;
-                --bg-elevated: #121212;
-                --text: #e8e8e8;
-                --text-soft: #d0d0d0;
-                --muted: #999;
-                --muted-light: #777;
+                --bg: #fafaf8;
+                --bg-elevated: #ffffff;
+                --bg-card: #ffffff;
+                --text: #1a1a1a;
+                --text-soft: #2d2d2d;
+                --muted: #666;
+                --muted-light: #888;
                 --accent: #d4af37;
-                --accent-dim: #e5c255;
-                --accent-glow: rgba(212, 175, 55, 0.12);
-                --border: #1a1a1a;
-                --border-soft: #151515;
-                --shadow: rgba(255, 255, 255, 0.03);
+                --accent-bright: #e5c255;
+                --accent-dim: #c29a2d;
+                --accent-glow: rgba(212, 175, 55, 0.2);
+                --accent-glow-strong: rgba(212, 175, 55, 0.35);
+                --border: #e0e0e0;
+                --border-soft: #f0f0f0;
+                --shadow: rgba(0, 0, 0, 0.08);
+                --shadow-strong: rgba(0, 0, 0, 0.15);
+                --gradient-gold: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+                --gradient-subtle: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.03) 100%);
             }
         }
 
@@ -52,6 +64,33 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow);
+            }
+            50% {
+                text-shadow: 0 0 30px var(--accent-glow-strong), 0 0 60px var(--accent-glow-strong);
+            }
+        }
+
+        @keyframes shimmerGold {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
             }
         }
 
@@ -74,100 +113,149 @@
             background: var(--bg);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 0%, var(--accent-glow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            max-width: 720px;
+            max-width: 820px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         header {
-            padding: 5rem 0 2rem;
+            padding: 6rem 0 3rem;
             text-align: center;
             animation: fadeInUp 0.8s ease-out;
         }
 
         .logo {
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            color: var(--accent);
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            background: var(--gradient-gold);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             position: relative;
             display: inline-block;
+            animation: shimmerGold 3s linear infinite, glow 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
         }
 
         .logo::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            width: 80px;
+            height: 3px;
+            background: var(--gradient-gold);
+            background-size: 200% auto;
+            animation: shimmerGold 3s linear infinite;
+            border-radius: 2px;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .hero {
-            padding: 5rem 0 7rem;
+            padding: 6rem 0 8rem;
             text-align: center;
             animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            position: relative;
         }
 
         .hero h1 {
-            font-size: clamp(2rem, 6vw, 3rem);
-            font-weight: 600;
-            line-height: 1.2;
-            margin-bottom: 2rem;
-            letter-spacing: -0.03em;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.04em;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-soft) 50%, var(--text) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmerGold 5s linear infinite;
         }
 
         .hero p {
-            font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
+            font-size: clamp(1.125rem, 3vw, 1.375rem);
             color: var(--muted);
-            max-width: 580px;
+            max-width: 640px;
             margin: 0 auto;
             line-height: 1.8;
             font-weight: 400;
         }
 
         .section {
-            padding: 4rem 0;
+            padding: 5rem 0;
             border-top: 1px solid var(--border);
             animation: fadeInUp 0.8s ease-out 0.4s backwards;
+            position: relative;
         }
 
         .section h2 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 2.5rem;
-            letter-spacing: -0.02em;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 3.5rem;
+            letter-spacing: -0.03em;
             text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-gold);
+            border-radius: 2px;
         }
 
         .flow {
             display: flex;
             flex-direction: column;
-            gap: 3rem;
-            margin: 3rem 0;
+            gap: 2rem;
+            margin: 4rem 0;
         }
 
         @media (min-width: 640px) {
             .flow {
                 flex-direction: row;
-                gap: 2.5rem;
+                gap: 2rem;
             }
         }
 
         .flow-item {
             flex: 1;
             text-align: center;
-            padding: 2rem 1.5rem;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-soft);
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            padding: 3rem 2rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -179,9 +267,23 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            background: var(--gradient-subtle);
             transform: translateX(-100%);
             transition: transform 0.6s ease;
+        }
+
+        .flow-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: var(--gradient-gold);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .flow-item:hover::before,
@@ -189,136 +291,183 @@
             transform: translateX(100%);
         }
 
+        .flow-item:hover::after,
+        .flow-item:focus-within::after {
+            opacity: 1;
+        }
+
         .flow-item:hover,
         .flow-item:focus-within {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px var(--shadow), 0 0 0 1px var(--accent-glow);
-            border-color: var(--accent-glow);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px var(--shadow-strong), 0 0 40px var(--accent-glow);
+            border-color: transparent;
         }
 
         .flow-number {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 3rem;
-            height: 3rem;
+            width: 4rem;
+            height: 4rem;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
+            background: var(--gradient-gold);
+            background-size: 200% auto;
             color: var(--bg);
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 1.25rem;
-            box-shadow: 0 4px 12px var(--accent-glow);
-            transition: transform 0.3s ease;
+            font-weight: 900;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 32px var(--accent-glow-strong);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: shimmerGold 3s linear infinite;
+            position: relative;
+        }
+
+        .flow-number::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            opacity: 0.3;
+            filter: blur(12px);
+            z-index: -1;
         }
 
         .flow-item:hover .flow-number,
         .flow-item:focus-within .flow-number {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.15) rotate(360deg);
+            box-shadow: 0 12px 48px var(--accent-glow-strong);
         }
 
         .flow-item h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
             color: var(--text);
+            letter-spacing: -0.02em;
         }
 
         .flow-item p {
-            font-size: 0.9375rem;
+            font-size: 1.0625rem;
             color: var(--muted);
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
         .manifesto {
-            padding: 4rem 0;
+            padding: 5rem 0;
         }
 
         .manifesto h2 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 2.5rem;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 3.5rem;
             text-align: center;
         }
 
         .manifesto ul {
             list-style: none;
-            margin: 2rem 0;
-            max-width: 600px;
+            margin: 3rem 0;
+            max-width: 680px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .manifesto li {
-            padding: 1rem 0 1rem 2rem;
+            padding: 1.5rem 0 1.5rem 3rem;
             position: relative;
             color: var(--muted);
-            line-height: 1.8;
-            font-size: 1.0625rem;
+            line-height: 1.9;
+            font-size: 1.125rem;
             transition: all 0.3s ease;
+            border-left: 2px solid transparent;
         }
 
         .manifesto li::before {
             content: "→";
             position: absolute;
             left: 0;
-            color: var(--accent);
-            font-weight: 600;
-            font-size: 1.25rem;
-            transition: transform 0.3s ease;
+            background: var(--gradient-gold);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            animation: shimmerGold 3s linear infinite;
         }
 
         .manifesto li:hover,
         .manifesto li:focus-within {
             color: var(--text);
-            padding-left: 2.5rem;
+            padding-left: 3.5rem;
+            border-left-color: var(--accent);
         }
 
         .manifesto li:hover::before,
         .manifesto li:focus-within::before {
-            transform: translateX(4px);
+            transform: translateX(6px) scale(1.2);
         }
 
         .pricing {
-            padding: 3rem 0;
+            padding: 4rem 3rem;
             text-align: center;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-soft);
-            border-radius: 16px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 16px var(--shadow);
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            margin: 3rem 0;
+            box-shadow: 0 8px 32px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-gold);
+            background-size: 200% auto;
+            animation: shimmerGold 3s linear infinite;
         }
 
         .pricing h2 {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .pricing p {
-            font-size: 1.0625rem;
+            font-size: 1.125rem;
             color: var(--muted);
-            margin: 0.75rem 0;
+            margin: 1rem 0;
         }
 
         .pricing .price {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--accent);
-            margin: 1.5rem 0;
-            letter-spacing: -0.01em;
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-gold);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 2rem 0;
+            letter-spacing: -0.02em;
+            animation: shimmerGold 3s linear infinite;
         }
 
         footer {
-            padding: 5rem 0 4rem;
+            padding: 6rem 0 4rem;
             text-align: center;
             border-top: 1px solid var(--border);
-            margin-top: 5rem;
+            margin-top: 6rem;
         }
 
         footer p {
-            font-size: 0.9375rem;
+            font-size: 1rem;
             color: var(--muted-light);
-            margin: 0.75rem 0;
-            line-height: 1.7;
+            margin: 1rem 0;
+            line-height: 1.8;
         }
 
         footer a {
@@ -326,30 +475,34 @@
             text-decoration: none;
             border-bottom: 1px solid transparent;
             transition: all 0.2s ease;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         footer a:hover {
             border-bottom-color: var(--accent);
-            color: var(--accent-dim);
+            color: var(--accent-bright);
         }
 
         .code {
             font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Courier New", monospace;
-            font-size: 0.875em;
+            font-size: 0.9em;
             background: var(--accent-glow);
-            color: var(--accent-dim);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
+            color: var(--accent);
+            padding: 0.35rem 0.7rem;
+            border-radius: 6px;
             border: 1px solid var(--accent-glow);
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .divider {
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            margin: 3rem auto;
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-gold);
+            background-size: 200% auto;
+            margin: 4rem auto;
+            border-radius: 2px;
+            animation: shimmerGold 3s linear infinite;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         /* Scroll reveal animations */
@@ -367,7 +520,44 @@
 
         @media (max-width: 640px) {
             header {
+                padding: 5rem 0 2.5rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .hero {
+                padding: 5rem 0 6rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .manifesto {
+                padding: 4rem 0;
+            }
+
+            .flow-item {
+                padding: 2.5rem 2rem;
+            }
+
+            .flow-number {
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
                 padding: 4rem 0 2rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+                letter-spacing: 0.15em;
             }
 
             .hero {
@@ -378,34 +568,16 @@
                 padding: 3rem 0;
             }
 
+            .section h2 {
+                font-size: 1.75rem;
+            }
+
             .manifesto {
                 padding: 3rem 0;
             }
 
-            .flow-item {
-                padding: 1.5rem 1.25rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header {
-                padding: 3rem 0 1.5rem;
-            }
-
-            .logo {
-                font-size: 1.75rem;
-            }
-
-            .hero {
-                padding: 3rem 0 4rem;
-            }
-
-            .section {
-                padding: 2.5rem 0;
-            }
-
-            .manifesto {
-                padding: 2.5rem 0;
+            .container {
+                padding: 0 1.5rem;
             }
         }
     </style>
