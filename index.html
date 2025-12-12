@@ -14,19 +14,62 @@
 
         :root {
             --bg: #fafaf8;
+            --bg-elevated: #ffffff;
             --text: #1a1a1a;
+            --text-soft: #2d2d2d;
             --muted: #666;
+            --muted-light: #888;
             --accent: #d4af37;
+            --accent-dim: #c29a2d;
+            --accent-glow: rgba(212, 175, 55, 0.15);
             --border: #e0e0e0;
+            --border-soft: #f0f0f0;
+            --shadow: rgba(0, 0, 0, 0.04);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg: #0a0a0a;
+                --bg-elevated: #121212;
                 --text: #e8e8e8;
+                --text-soft: #d0d0d0;
                 --muted: #999;
+                --muted-light: #777;
                 --accent: #d4af37;
-                --border: #333;
+                --accent-dim: #e5c255;
+                --accent-glow: rgba(212, 175, 55, 0.12);
+                --border: #1a1a1a;
+                --border-soft: #151515;
+                --shadow: rgba(255, 255, 255, 0.03);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
             }
         }
 
@@ -41,121 +84,184 @@
         }
 
         .container {
-            max-width: 680px;
+            max-width: 720px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
 
         header {
-            padding: 4rem 0 2rem;
+            padding: 5rem 0 2rem;
             text-align: center;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
             color: var(--accent);
             text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
         .hero {
-            padding: 4rem 0 6rem;
+            padding: 5rem 0 7rem;
             text-align: center;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
 
         .hero h1 {
-            font-size: clamp(1.75rem, 5vw, 2.5rem);
-            font-weight: 400;
-            line-height: 1.3;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-soft) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
         }
 
         .hero p {
-            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
             color: var(--muted);
-            max-width: 540px;
+            max-width: 580px;
             margin: 0 auto;
-            line-height: 1.7;
+            line-height: 1.8;
+            font-weight: 400;
         }
 
         .section {
-            padding: 3rem 0;
+            padding: 4rem 0;
             border-top: 1px solid var(--border);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
         }
 
         .section h2 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.01em;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.02em;
+            text-align: center;
         }
 
         .flow {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
-            margin: 2rem 0;
+            gap: 3rem;
+            margin: 3rem 0;
         }
 
         @media (min-width: 640px) {
             .flow {
                 flex-direction: row;
-                justify-content: space-between;
+                gap: 2.5rem;
             }
         }
 
         .flow-item {
             flex: 1;
             text-align: center;
+            padding: 2rem 1.5rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .flow-item:hover::before {
+            left: 100%;
+        }
+
+        .flow-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px var(--shadow), 0 0 0 1px var(--accent-glow);
+            border-color: var(--accent-glow);
         }
 
         .flow-number {
-            display: inline-block;
-            width: 2.5rem;
-            height: 2.5rem;
-            line-height: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
             border-radius: 50%;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
             color: var(--bg);
-            font-weight: 600;
-            margin-bottom: 1rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 4px 12px var(--accent-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .flow-item:hover .flow-number {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .flow-item h3 {
-            font-size: 1.125rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text);
         }
 
         .flow-item p {
             font-size: 0.9375rem;
             color: var(--muted);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .manifesto {
-            padding: 3rem 0;
+            padding: 4rem 0;
         }
 
         .manifesto h2 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            text-align: center;
         }
 
         .manifesto ul {
             list-style: none;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .manifesto li {
-            padding: 0.75rem 0;
-            padding-left: 1.5rem;
+            padding: 1rem 0 1rem 2rem;
             position: relative;
             color: var(--muted);
-            line-height: 1.7;
+            line-height: 1.8;
+            font-size: 1.0625rem;
+            transition: all 0.3s ease;
         }
 
         .manifesto li::before {
@@ -163,56 +269,113 @@
             position: absolute;
             left: 0;
             color: var(--accent);
+            font-weight: 600;
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .manifesto li:hover {
+            color: var(--text);
+            padding-left: 2.5rem;
+        }
+
+        .manifesto li:hover::before {
+            transform: translateX(4px);
         }
 
         .pricing {
-            padding: 2rem 0;
+            padding: 3rem 0;
             text-align: center;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+
+        .pricing h2 {
+            margin-bottom: 1.5rem;
         }
 
         .pricing p {
-            font-size: 1rem;
+            font-size: 1.0625rem;
             color: var(--muted);
-            margin: 0.5rem 0;
+            margin: 0.75rem 0;
         }
 
         .pricing .price {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--text);
-            margin-top: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 1.5rem 0;
+            letter-spacing: -0.01em;
         }
 
         footer {
-            padding: 4rem 0 3rem;
+            padding: 5rem 0 4rem;
             text-align: center;
             border-top: 1px solid var(--border);
-            margin-top: 4rem;
+            margin-top: 5rem;
         }
 
         footer p {
-            font-size: 0.875rem;
-            color: var(--muted);
-            margin: 0.5rem 0;
+            font-size: 0.9375rem;
+            color: var(--muted-light);
+            margin: 0.75rem 0;
+            line-height: 1.7;
         }
 
         footer a {
             color: var(--accent);
             text-decoration: none;
             border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
 
         footer a:hover {
             border-bottom-color: var(--accent);
+            color: var(--accent-dim);
         }
 
         .code {
-            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+            font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Courier New", monospace;
             font-size: 0.875em;
-            background: var(--border);
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
+            background: var(--accent-glow);
+            color: var(--accent-dim);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--accent-glow);
+            font-weight: 500;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin: 3rem auto;
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 4rem 0 2rem;
+            }
+
+            .hero {
+                padding: 4rem 0 5rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .manifesto {
+                padding: 3rem 0;
+            }
+
+            .flow-item {
+                padding: 1.5rem 1.25rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -220,16 +383,20 @@
                 padding: 3rem 0 1.5rem;
             }
 
+            .logo {
+                font-size: 1.75rem;
+            }
+
             .hero {
                 padding: 3rem 0 4rem;
             }
 
             .section {
-                padding: 2rem 0;
+                padding: 2.5rem 0;
             }
 
             .manifesto {
-                padding: 2rem 0;
+                padding: 2.5rem 0;
             }
         }
     </style>
@@ -246,6 +413,7 @@
                 No gatekeepers. No platforms. Just you, your keys, and the things you make.
                 Ethereum-native infrastructure that fades into the background.
             </p>
+            <div class="divider"></div>
         </section>
 
         <section class="section">
@@ -296,9 +464,9 @@
     </div>
 
     <script>
-        // Minimal interaction: smooth scroll for any future anchor links
+        // Smooth scroll and subtle reveal animations
         document.addEventListener('DOMContentLoaded', function() {
-            // Add smooth scrolling if anchor links are added later
+            // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -307,6 +475,39 @@
                         target.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
+            });
+
+            // Intersection Observer for scroll-triggered animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe sections for subtle entrance
+            document.querySelectorAll('.flow-item, .manifesto li').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Add slight delay to each flow item
+            document.querySelectorAll('.flow-item').forEach((item, index) => {
+                item.style.transitionDelay = `${index * 0.1}s`;
+            });
+
+            // Add slight delay to each manifesto item
+            document.querySelectorAll('.manifesto li').forEach((item, index) => {
+                item.style.transitionDelay = `${index * 0.05}s`;
             });
         });
     </script>
