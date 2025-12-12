@@ -176,18 +176,21 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
-            transition: left 0.6s ease;
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
         }
 
-        .flow-item:hover::before {
-            left: 100%;
+        .flow-item:hover::before,
+        .flow-item:focus-within::before {
+            transform: translateX(100%);
         }
 
-        .flow-item:hover {
+        .flow-item:hover,
+        .flow-item:focus-within {
             transform: translateY(-4px);
             box-shadow: 0 12px 24px var(--shadow), 0 0 0 1px var(--accent-glow);
             border-color: var(--accent-glow);
@@ -209,7 +212,8 @@
             transition: transform 0.3s ease;
         }
 
-        .flow-item:hover .flow-number {
+        .flow-item:hover .flow-number,
+        .flow-item:focus-within .flow-number {
             transform: scale(1.1) rotate(5deg);
         }
 
@@ -264,12 +268,14 @@
             transition: transform 0.3s ease;
         }
 
-        .manifesto li:hover {
+        .manifesto li:hover,
+        .manifesto li:focus-within {
             color: var(--text);
             padding-left: 2.5rem;
         }
 
-        .manifesto li:hover::before {
+        .manifesto li:hover::before,
+        .manifesto li:focus-within::before {
             transform: translateX(4px);
         }
 
@@ -351,6 +357,7 @@
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
+            transition-delay: var(--reveal-delay, 0s);
         }
 
         .reveal-on-scroll.revealed {
@@ -497,20 +504,18 @@
                     });
                 }, observerOptions);
 
-                // Observe sections for subtle entrance
-                document.querySelectorAll('.flow-item, .manifesto li').forEach(el => {
-                    el.classList.add('reveal-on-scroll');
-                    observer.observe(el);
-                });
-
-                // Add slight delay to each flow item
+                // Add delays using CSS custom properties for flow items
                 document.querySelectorAll('.flow-item').forEach((item, index) => {
-                    item.style.transitionDelay = `${index * 0.1}s`;
+                    item.classList.add('reveal-on-scroll');
+                    item.style.setProperty('--reveal-delay', `${index * 0.1}s`);
+                    observer.observe(item);
                 });
 
-                // Add slight delay to each manifesto item
+                // Add delays using CSS custom properties for manifesto items
                 document.querySelectorAll('.manifesto li').forEach((item, index) => {
-                    item.style.transitionDelay = `${index * 0.05}s`;
+                    item.classList.add('reveal-on-scroll');
+                    item.style.setProperty('--reveal-delay', `${index * 0.05}s`);
+                    observer.observe(item);
                 });
             }
         });
